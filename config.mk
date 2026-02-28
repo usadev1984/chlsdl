@@ -1,6 +1,6 @@
 LIBS = 
 
-CFLAGS = -std=gnu23 -fPIC -Wall -Wextra
+CFLAGS = -std=gnu23 -fPIC -Wall -Wextra ${INCS}
 
 LDFLAGS = ${LIBS}
 
