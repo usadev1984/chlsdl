@@ -8,6 +8,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <time.h>
 
 const char * g_cache_dir     = NULL;
 const char * g_config_dir    = NULL;
