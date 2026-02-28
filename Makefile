@@ -18,10 +18,21 @@ ifeq ($(strip $(PREFIX)),)
 endif
 
 OBJ	 := $(patsubst %.c, %.o, $(wildcard src/*/*.c)) src/main.o
+LIB_OBJ := $(patsubst %.c, %.o, $(wildcard src/common/*/*.c))
 
 # outputs
 BIN					:= chlsdl
 DEBUG_BIN			:= ${BIN}-debug
+# libchlsdl-common
+LIB_BASENAME := lib${BIN}-common
+LIB_COMMON   := ${LIB_BASENAME}.so
+VER_MAJOR    := 0
+VER_MINOR    := 0
+VER_PATCH    := 0
+LIB_MAJOR    := ${LIB_BASENAME}.so.$(VER_MAJOR)
+LIB_MINOR    := ${LIB_BASENAME}.so.$(VER_MAJOR).$(VER_MINOR)
+LIB_PATCH    := ${LIB_BASENAME}.so.$(VER_MAJOR).$(VER_MINOR).$(VER_PATCH)
+LIB_VERSION  := ${LIB_BASENAME}.so.$(VER_MAJOR).$(VER_MINOR).$(VER_PATCH)
 
 install:
 	mkdir -p ${DESTDIR}${PREFIX}/bin
@@ -33,17 +44,37 @@ release: ${BIN}
 debug: CFLAGS += -DDEBUG -g3
 debug: ${DEBUG_BIN}
 
+libchlsdl-common: ${LIB_COMMON}
+
+debug_libchlsdl-common: CFLAGS += -DDEBUG -g3
+debug_libchlsdl-common: ${LIB_COMMON}
+
 ${BIN}: ${OBJ}
-	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ || exit 1
+	${CC} ${CFLAGS} ${LDFLAGS} -L. -lchlsdl-common -o $@ $^ || exit 1
 
 ${DEBUG_BIN}: ${OBJ}
-	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ || exit 1
+	${CC} ${CFLAGS} ${LDFLAGS} -L. -lchlsdl-common -o $@ $^ || exit 1
+
+${LIB_COMMON}: ${LIB_MAJOR}
+	ln -sf $^ $@
+
+${LIB_MAJOR}: ${LIB_MINOR}
+	ln -sf $^ $@
+
+${LIB_MINOR}: ${LIB_VERSION}
+	ln -sf $^ $@
+
+${LIB_VERSION}: ${LIB_OBJ}
+	${CC} -shared -Wl,-soname,${LIB_MAJOR} ${LDFLAGS} ${CFLAGS} -o $@ $^ || exit 1
 
 ${OBJ}: %.o: %.c
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ -c $^ || exit 1
 
-clean:
-	rm -f ${OBJ} ${BIN} ${DEBUG_BIN} &> /dev/null
+${LIB_OBJ}: %.o: %.c
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ -c $^ || exit 1
 
-.PHONY: debug release install clean
+clean:
+	rm -f ${OBJ} ${LIB_OBJ} ${BIN} ${DEBUG_BIN} &> /dev/null
+
+.PHONY: debug release install clean debug_libchlsdl-common libchlsdl-common
 # end
