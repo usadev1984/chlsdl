@@ -17,7 +17,7 @@ ifeq ($(strip $(PREFIX)),)
 	PREFIX = /usr/local
 endif
 
-OBJ	 := $(patsubst %.c, %.o, $(wildcard src/*/*.c)) src/main.o
+OBJ	 := $(patsubst %.c, %.o, $(wildcard src/*.c)) # src/main.o
 LIB_OBJ := $(patsubst %.c, %.o, $(wildcard src/common/*/*.c))
 
 # outputs
