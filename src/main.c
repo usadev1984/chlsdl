@@ -1,4 +1,5 @@
 #include "main.h"
+#include "clipboard.h"
 #include "common/util/util.h"
 #include "print.h"
 
@@ -15,6 +16,7 @@ const char * g_downloads_dir = NULL;
 static void
 cleanup(int sig)
 {
+    clipboard_deinit();
     free((char *)g_downloads_dir);
     free((char *)g_config_dir);
     free((char *)g_cache_dir);
@@ -96,6 +98,18 @@ main()
         == -1) {
         print_error("sighandler\n");
         cleanup(1);
+    }
+
+    clipboard_init();
+
+    while (1) {
+        char * clip_content = (char *)clipboard_get();
+        assert(clip_content);
+
+        print_debug_success("read: '%s'\n", clip_content);
+
+        clipboard_string_free(clip_content);
+        nanosleep(&(const struct timespec) { .tv_nsec = MS_TO_NS(300) }, NULL);
     }
 
     cleanup(0);
