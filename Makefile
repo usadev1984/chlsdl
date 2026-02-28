@@ -50,10 +50,10 @@ debug_libchlsdl-common: CFLAGS += -DDEBUG -g3
 debug_libchlsdl-common: ${LIB_COMMON}
 
 ${BIN}: ${OBJ}
-	${CC} ${CFLAGS} ${LDFLAGS} -L. -lchlsdl-common -o $@ $^ || exit 1
+	${CC} ${CFLAGS} -lX11 -lXmu ${LDFLAGS} -L. -lchlsdl-common -o $@ $^ || exit 1
 
 ${DEBUG_BIN}: ${OBJ}
-	${CC} ${CFLAGS} ${LDFLAGS} -L. -lchlsdl-common -o $@ $^ || exit 1
+	${CC} ${CFLAGS} -lX11 -lXmu ${LDFLAGS} -L. -lchlsdl-common -o $@ $^ || exit 1
 
 ${LIB_COMMON}: ${LIB_MAJOR}
 	ln -sf $^ $@
