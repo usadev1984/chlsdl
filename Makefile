@@ -18,7 +18,8 @@ ifeq ($(strip $(PREFIX)),)
 endif
 
 OBJ	 := $(patsubst %.c, %.o, $(wildcard src/*.c)) # src/main.o
-LIB_OBJ := $(patsubst %.c, %.o, $(wildcard src/common/*/*.c))
+LIB_OBJ := $(patsubst %.c, %.o, $(wildcard src/common/*/*.c)) \
+				$(patsubst %.c, %.o, $(wildcard src/common/*.c))
 
 # outputs
 BIN					:= chlsdl
