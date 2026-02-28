@@ -1,0 +1,6 @@
+*.o
+*.so
+
+# clangd
+.cache
+compile_commands.json
