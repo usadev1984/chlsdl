@@ -1,4 +1,5 @@
 #include "main.h"
+#include "print.h"
 
 #include <signal.h>
 #include <stdlib.h>
@@ -14,6 +15,7 @@ main()
 {
     if (sigaction(SIGINT, &(struct sigaction) { .sa_handler = cleanup }, NULL)
         == -1) {
+        print_error("sighandler\n");
         cleanup(1);
     }
 
