@@ -35,6 +35,15 @@ LIB_PATCH    := ${LIB_BASENAME}.so.$(VER_MAJOR).$(VER_MINOR).$(VER_PATCH)
 LIB_VERSION  := ${LIB_BASENAME}.so.$(VER_MAJOR).$(VER_MINOR).$(VER_PATCH)
 
 install:
+	mkdir -p ${DESTDIR}${PREFIX}/lib/${BIN}-extensions
+	cp -f ${LIB_VERSION} ${DESTDIR}${PREFIX}/lib/${BIN}-extensions/${LIB_VERSION}
+	chmod 755 ${DESTDIR}${PREFIX}/lib/${BIN}-extensions/${LIB_VERSION}
+
+	cp -f ${LIB_MINOR} ${DESTDIR}${PREFIX}/lib/${BIN}-extensions/${LIB_MINOR}
+
+	cp -f ${LIB_MAJOR} ${DESTDIR}${PREFIX}/lib/${BIN}-extensions/${LIB_MAJOR}
+	cp -f ${LIB_COMMON} ${DESTDIR}${PREFIX}/lib/${BIN}-extensions/${LIB_COMMON}
+
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f ${BIN} ${DESTDIR}${PREFIX}/bin/${BIN}
 	chmod 755 ${DESTDIR}${PREFIX}/bin/${BIN}
