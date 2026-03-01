@@ -180,6 +180,16 @@ init_modules(const struct chlsdl_data * chlsdl_data)
     }
 }
 
+static char *
+get_line_from_string(const char * s)
+{
+    const char * nl = strchr(s, '\n');
+    if (!nl)
+        return NULL;
+
+    return strndup(s, nl - s);
+}
+
 int
 main()
 {
@@ -213,8 +223,14 @@ main()
         char * clip_content = (char *)clipboard_get();
         assert(clip_content);
 
-        print_debug_success("read: '%s'\n", clip_content);
+        print_debug_success("clipboard content: '%s'\n", clip_content);
 
+        char * url = get_line_from_string(clip_content);
+        if (!url)
+            goto skip;
+
+    skip:
+        free(url);
         clipboard_string_free(clip_content);
         nanosleep(&(const struct timespec) { .tv_nsec = MS_TO_NS(300) }, NULL);
     }
