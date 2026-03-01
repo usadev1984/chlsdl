@@ -37,15 +37,9 @@
         fprintf(stderr, COLOR_GREEN "%s:%d: " format TERM_COLOR, __func__,     \
             __LINE__ __VA_OPT__(, ) __VA_ARGS__)
 #else
-#    define print_debug_error(format, ...)                                     \
-        do {                                                                   \
-        } while (0)
-#    define print_debug_warn(format, ...)                                      \
-        do {                                                                   \
-        } while (0)
-#    define print_debug_success(format, ...)                                   \
-        do {                                                                   \
-        } while (0)
+#    define print_debug_error(format, ...)   ({})
+#    define print_debug_warn(format, ...)    ({})
+#    define print_debug_success(format, ...) ({})
 #endif
 
 #endif // PRINT_H_
