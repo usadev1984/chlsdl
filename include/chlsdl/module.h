@@ -3,6 +3,9 @@
 
 #include "common/common.h"
 
+#define PCRE2_CODE_UNIT_WIDTH 8
+#include <pcre2.h>
+
 struct chlsdl_data {
     const struct version * chlsdl_version;
 
@@ -15,6 +18,11 @@ typedef void (*module_deinit)();
 
 struct module {
     const module_deinit deinit;
+
+    struct {
+        pcre2_code *       pattern;
+        pcre2_match_data * md;
+    } regex;
 };
 
 #endif // MODULE_H_
