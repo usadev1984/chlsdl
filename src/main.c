@@ -1,10 +1,10 @@
 #include "main.h"
 #include "clipboard.h"
-#include "common/util/util.h"
 #include "print.h"
 
 #include <assert.h>
 #include <chlsdl/common/common.h>
+#include <chlsdl/common/util/util.h>
 #include <chlsdl/module.h>
 #include <dirent.h>
 #include <dlfcn.h>
