@@ -4,6 +4,7 @@
 #include "print.h"
 
 #include <assert.h>
+#include <chlsdl/common/common.h>
 #include <errno.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -88,6 +89,9 @@ set_downloads_dir()
 int
 main()
 {
+    print_debug_success("libchlsdl-common version: '%s'\n",
+        get_libchlsdl_common_version()->version);
+
     set_cache_dir();
     set_config_dir();
     set_downloads_dir();
