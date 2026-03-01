@@ -30,6 +30,7 @@
           buildInputs = with pkgs; [
             xorg.libX11.dev
             libxmu.dev
+            pcre2.dev
           ];
           hardeningDisable = [ "all" ];
         };
@@ -42,6 +43,7 @@
           buildInputs = with pkgs; [
             xorg.libX11.dev
             libxmu.dev
+            pcre2.dev
           ];
 
           buildPhase = ''
