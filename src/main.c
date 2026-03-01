@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <chlsdl/common/common.h>
 #include <chlsdl/common/util/util.h>
+#include <chlsdl/macros.h>
 #include <chlsdl/module.h>
 #include <dirent.h>
 #include <dlfcn.h>
@@ -23,6 +24,9 @@ static struct module_lib {
     void *       dl_lib;
 } libs[128];
 
+static int                    nmodules;
+static const struct module ** modules;
+
 const char * g_cache_dir     = NULL;
 const char * g_config_dir    = NULL;
 const char * g_downloads_dir = NULL;
@@ -31,8 +35,11 @@ static void
 cleanup(int sig)
 {
     clipboard_deinit();
-    for (int i = nlibs; i-- > 0;)
+    for (int i = nlibs; i-- > 0;) {
+        modules[i]->deinit();
         dlclose(libs[i].dl_lib);
+    }
+    free(modules);
     free((char *)g_downloads_dir);
     free((char *)g_config_dir);
     free((char *)g_cache_dir);
@@ -138,6 +145,9 @@ init_modules(const struct chlsdl_data * chlsdl_data)
 
     print_debug_warn("loading %d modules\n", nlibs);
 
+    modules = malloc(sizeof(*modules) * nlibs);
+    assert(modules);
+
     for (int i = 0; i < nlibs; ++i) {
         struct module_lib * module = &libs[i];
         print_debug_warn("loading '%s'\n", module->name);
@@ -147,6 +157,26 @@ init_modules(const struct chlsdl_data * chlsdl_data)
             print_debug_error("'%s'\n", dlerror());
             assert(0);
         }
+
+        /* get *_init() address */
+        chlsdl_defer char * init_symbol_name
+            = svconcat("%s_init", module->name);
+        assert(init_symbol_name);
+
+        print_debug_warn("getting '%s()' address\n", init_symbol_name);
+        module_init init = dlsym(module->dl_lib, init_symbol_name);
+
+        if (!init) {
+            print_debug_error("'%s'\n", dlerror());
+            assert(0);
+        }
+
+        print_debug_success("'%s()' address %p\n", init_symbol_name, init);
+
+        /* call *_init() to get address of module struct */
+        modules[nmodules] = init(chlsdl_data);
+        assert(modules[nmodules]);
+        ++nmodules;
     }
 }
 
