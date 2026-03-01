@@ -15,9 +15,11 @@ struct chlsdl_data {
 
 typedef const struct module * (*module_init)(const struct chlsdl_data *);
 typedef void (*module_deinit)();
+typedef void (*module_func)(void *);
 
 struct module {
     const module_deinit deinit;
+    const module_func   func;
 
     struct {
         pcre2_code *       pattern;
