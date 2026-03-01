@@ -41,13 +41,13 @@ CFLAGS +=  -DCHLSDL_VERSION=\"${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}\" \
 
 install:
 	mkdir -p ${DESTDIR}${PREFIX}/lib/${BIN}-modules
-	cp -f ${LIB_VERSION} ${DESTDIR}${PREFIX}/lib/${BIN}-modules/${LIB_VERSION}
-	chmod 755 ${DESTDIR}${PREFIX}/lib/${BIN}-modules/${LIB_VERSION}
+	cp -f ${LIB_VERSION} ${DESTDIR}${PREFIX}/lib/${LIB_VERSION}
+	chmod 755 ${DESTDIR}${PREFIX}/lib/${LIB_VERSION}
 
-	cp -f ${LIB_MINOR} ${DESTDIR}${PREFIX}/lib/${BIN}-modules/${LIB_MINOR}
+	cp -f ${LIB_MINOR} ${DESTDIR}${PREFIX}/lib/${LIB_MINOR}
 
-	cp -f ${LIB_MAJOR} ${DESTDIR}${PREFIX}/lib/${BIN}-modules/${LIB_MAJOR}
-	cp -f ${LIB_COMMON} ${DESTDIR}${PREFIX}/lib/${BIN}-modules/${LIB_COMMON}
+	cp -f ${LIB_MAJOR} ${DESTDIR}${PREFIX}/lib/${LIB_MAJOR}
+	cp -f ${LIB_COMMON} ${DESTDIR}${PREFIX}/lib/${LIB_COMMON}
 
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f ${BIN} ${DESTDIR}${PREFIX}/bin/${BIN}
