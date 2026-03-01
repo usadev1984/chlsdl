@@ -40,6 +40,10 @@ CFLAGS +=  -DCHLSDL_VERSION=\"${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}\" \
 				-DCHLSDL_PATCH="${VER_PATCH}"
 
 install:
+	mkdir -p ${DESTDIR}${PREFIX}/include/
+	cp -rf include/${BIN} ${DESTDIR}${PREFIX}/include/
+	# chmod -R 444 ${DESTDIR}${PREFIX}/include/${BIN}
+
 	mkdir -p ${DESTDIR}${PREFIX}/lib/${BIN}-modules
 	cp -f ${LIB_VERSION} ${DESTDIR}${PREFIX}/lib/${LIB_VERSION}
 	chmod 755 ${DESTDIR}${PREFIX}/lib/${LIB_VERSION}
