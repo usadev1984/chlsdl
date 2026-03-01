@@ -15,6 +15,8 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <time.h>
+#define PCRE2_CODE_UNIT_WIDTH 8
+#include <pcre2.h>
 
 static int nlibs;
 
@@ -228,6 +230,22 @@ main()
         char * url = get_line_from_string(clip_content);
         if (!url)
             goto skip;
+
+        for (int i = 0; i < nmodules; ++i) {
+            const struct module * mod = modules[i];
+
+            if (pcre2_match(mod->regex.pattern, (PCRE2_SPTR8)url,
+                    PCRE2_ZERO_TERMINATED, 0, 0, mod->regex.md, NULL)
+                >= 0) {
+                clipboard_clear();
+                print_info("downloading: '%s'\n", url);
+                if (!mod->func)
+                    assert(0);
+
+                mod->func(clip_content);
+                break;
+            }
+        }
 
     skip:
         free(url);
