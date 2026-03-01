@@ -5,11 +5,22 @@
 
 #include <assert.h>
 #include <chlsdl/common/common.h>
+#include <chlsdl/module.h>
+#include <dirent.h>
+#include <dlfcn.h>
 #include <errno.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <time.h>
+
+static int nlibs;
+
+static struct module_lib {
+    const char * path;
+    const char * name;
+    void *       dl_lib;
+} libs[128];
 
 const char * g_cache_dir     = NULL;
 const char * g_config_dir    = NULL;
@@ -19,6 +30,8 @@ static void
 cleanup(int sig)
 {
     clipboard_deinit();
+    for (int i = nlibs; i-- > 0;)
+        dlclose(libs[i].dl_lib);
     free((char *)g_downloads_dir);
     free((char *)g_config_dir);
     free((char *)g_cache_dir);
@@ -86,6 +99,56 @@ set_downloads_dir()
     }
 }
 
+static void
+find_modules(int * nout, struct module_lib * out)
+{
+    /*
+     * FIXME: search `modules` placed in appropriate system directories like
+     * /lib and /usr/lib and wherever they are in nixos
+     */
+    static const char * dir     = "modules";
+    DIR *               modules = opendir(dir);
+    assert(modules);
+
+    struct dirent * ent;
+    int             i = 0;
+    while ((ent = readdir(modules))) {
+        const char * ext = strchr(ent->d_name, '.');
+        if (ext && strcmp(ext, ".so") == 0) {
+            const char * start = ent->d_name + 3;
+            out[i].name = strndup(start, strchr(ent->d_name, '.') - start);
+            assert(out[i].name);
+
+            out[i].path = svconcat("%s/%s", dir, ent->d_name);
+            assert(out[i++].path);
+            print_debug_warn("found module: '%s'\n", out[i - 1].path);
+        }
+    }
+    closedir(modules);
+    *nout = i;
+}
+
+static void
+init_modules(const struct chlsdl_data * chlsdl_data)
+{
+    find_modules(&nlibs, libs);
+    if (nlibs == 0)
+        return (void)print_debug_warn("no modules found\n");
+
+    print_debug_warn("loading %d modules\n", nlibs);
+
+    for (int i = 0; i < nlibs; ++i) {
+        struct module_lib * module = &libs[i];
+        print_debug_warn("loading '%s'\n", module->name);
+        module->dl_lib = dlopen(module->path, RTLD_NOW | RTLD_GLOBAL);
+
+        if (!module->dl_lib) {
+            print_debug_error("'%s'\n", dlerror());
+            assert(0);
+        }
+    }
+}
+
 int
 main()
 {
@@ -105,6 +168,14 @@ main()
         cleanup(1);
     }
 
+    /* initalize modules */
+    const struct chlsdl_data cdata = {
+        get_libchlsdl_common_version(),
+        g_cache_dir,
+        g_downloads_dir,
+    };
+
+    init_modules(&cdata);
     clipboard_init();
 
     while (1) {
