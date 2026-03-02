@@ -2,6 +2,7 @@
 #define CURL_REQUEST_H_
 
 #include <chlsdl/macros.h>
+#include <curl/curl.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -30,5 +31,10 @@ extern void
 set_curl_logfile_path(const char * path);
 extern void
 unset_curl_logfile_path();
+extern int
+curl_request_get(const char * url, struct curl_buffer * buf);
+extern int
+curl_request_post(const char * url, struct curl_buffer * buf,
+    const char * postfields, curl_off_t postfieldsize_large);
 
 #endif // CURL_REQUEST_H_
