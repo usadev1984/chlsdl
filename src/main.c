@@ -1,5 +1,6 @@
 #include "main.h"
 #include "clipboard.h"
+#include "config.h"
 
 #include <assert.h>
 #include <chlsdl/common/common.h>
@@ -33,6 +34,8 @@ const char * g_cache_dir     = NULL;
 const char * g_config_dir    = NULL;
 const char * g_downloads_dir = NULL;
 
+static struct chlsdl_config * config;
+
 static void
 cleanup(int sig)
 {
@@ -44,6 +47,7 @@ cleanup(int sig)
     }
     free(modules);
     free((char *)g_downloads_dir);
+    config_destroy(config);
     free((char *)g_config_dir);
     free((char *)g_cache_dir);
     exit(sig);
@@ -201,6 +205,9 @@ main()
 
     set_cache_dir();
     set_config_dir();
+
+    config = parse_config(g_config_dir);
+
     set_downloads_dir();
     print_info("using cache dir: '%s'\n", g_cache_dir);
     print_info("using config dir: '%s'\n", g_config_dir);
