@@ -31,6 +31,7 @@
             xorg.libX11.dev
             libxmu.dev
             pcre2.dev
+            curl.dev
           ];
           hardeningDisable = [ "all" ];
         };
@@ -44,6 +45,7 @@
             xorg.libX11.dev
             libxmu.dev
             pcre2.dev
+            curl.dev
           ];
 
           buildPhase = ''

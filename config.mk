@@ -1,4 +1,4 @@
-LIBS = -lpcre2-8
+LIBS = -lpcre2-8 -lcurl
 
 CFLAGS = -std=gnu23 -fPIC -Wall -Wextra ${INCS}
 
