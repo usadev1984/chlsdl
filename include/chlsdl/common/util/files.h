@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 extern void
-dump_buffer_to_file(const char * f, size_t sz, const void * data);
+write_buffer_to_file(const char * f, size_t sz, const void * data);
 
 extern struct curl_buffer *
 read_file_to_buffer(const char * f);
