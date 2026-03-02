@@ -26,4 +26,9 @@ curl_buffer_dealloc(struct curl_buffer * buf)
     free(buf);
 }
 
+extern void
+set_curl_logfile_path(const char * path);
+extern void
+unset_curl_logfile_path();
+
 #endif // CURL_REQUEST_H_
