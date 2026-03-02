@@ -7,6 +7,7 @@
 #include <string.h>
 
 static const char * logfile_path;
+static const char * user_agent;
 
 struct curl_buffer *
 curl_buffer_alloc(size_t n)
@@ -42,6 +43,22 @@ set_curl_logfile_path(const char * path)
     print_debug_warn("curl log file: '%s'\n", logfile_path);
 }
 
+void
+unset_curl_user_agent()
+{
+    free((char *)user_agent);
+}
+
+void
+set_curl_user_agent(const char * new_user_agent)
+{
+    if (user_agent)
+        unset_curl_user_agent();
+
+    user_agent = strdup(new_user_agent);
+    print_debug_warn("curl user agent: '%s'\n", user_agent);
+}
+
 static size_t
 curl_write_buffer(char * data, size_t s, size_t n, void * userdata)
 {
@@ -70,6 +87,9 @@ curl_request_set_common_opts(CURL * curl, FILE ** curl_log)
     curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_2TLS);
     curl_easy_setopt(curl, CURLOPT_FTP_SKIP_PASV_IP, 1L);
     curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 0L);
+
+    if (user_agent)
+        curl_easy_setopt(curl, CURLOPT_USERAGENT, user_agent);
 
     *curl_log = fopen(logfile_path, "w");
     if (!*curl_log) {

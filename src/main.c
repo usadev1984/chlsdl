@@ -39,6 +39,7 @@ static struct chlsdl_config * config;
 static void
 cleanup(int sig)
 {
+    unset_curl_user_agent();
     unset_curl_logfile_path();
     clipboard_deinit();
     for (int i = nlibs; i-- > 0;) {
@@ -235,6 +236,8 @@ main()
         set_curl_logfile_path(curllog);
         free(curllog);
     }
+
+    set_curl_user_agent(config->user_agent);
 
     while (1) {
         char * clip_content = (char *)clipboard_get();

@@ -31,6 +31,12 @@ extern void
 set_curl_logfile_path(const char * path);
 extern void
 unset_curl_logfile_path();
+
+extern void
+unset_curl_user_agent();
+extern void
+set_curl_user_agent(const char * new_user_agent);
+
 extern int
 curl_request_get(const char * url, struct curl_buffer * buf);
 extern int
