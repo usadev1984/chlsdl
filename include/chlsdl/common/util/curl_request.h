@@ -15,7 +15,7 @@ struct curl_buffer {
 extern struct curl_buffer *
 curl_buffer_alloc(size_t n);
 
-CHLSDL_ALWAYS_INLINE void
+CHLSDL_ALWAYS_INLINE inline void
 curl_buffer_dealloc(struct curl_buffer * buf)
 {
     if (!buf)
