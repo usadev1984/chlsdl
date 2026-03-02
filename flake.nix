@@ -32,6 +32,7 @@
             libxmu.dev
             pcre2.dev
             curl.dev
+            json_c.dev
           ];
           hardeningDisable = [ "all" ];
         };
