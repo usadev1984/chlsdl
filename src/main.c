@@ -36,6 +36,7 @@ const char * g_downloads_dir = NULL;
 static void
 cleanup(int sig)
 {
+    unset_curl_logfile_path();
     clipboard_deinit();
     for (int i = nlibs; i-- > 0;) {
         modules[i]->deinit();
@@ -220,6 +221,13 @@ main()
 
     init_modules(&cdata);
     clipboard_init();
+
+    {
+        char * curllog = svconcat("%s/curl_log.txt", g_cache_dir);
+        assert(curllog);
+        set_curl_logfile_path(curllog);
+        free(curllog);
+    }
 
     while (1) {
         char * clip_content = (char *)clipboard_get();
