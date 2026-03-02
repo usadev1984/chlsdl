@@ -52,20 +52,20 @@ cleanup(int sig)
 static void
 set_cache_dir()
 {
-    char * cache = getenv("XDG_CACHE_HOME");
-    if (!cache) {
+    char * cache_dir = getenv("XDG_CACHE_HOME");
+    if (!cache_dir) {
         print_warn("XDG_CACHE_HOME is unset. using '$HOME/.cache/" PROGRAM_NAME
                    "' instead\n");
 
         char * home = getenv("HOME");
-        cache       = svconcat("%s/.cache/" PROGRAM_NAME, home);
-        assert(cache);
+        cache_dir   = svconcat("%s/.cache/" PROGRAM_NAME, home);
+        assert(cache_dir);
     } else {
-        cache = svconcat("%s/" PROGRAM_NAME, cache);
-        assert(cache);
+        cache_dir = svconcat("%s/" PROGRAM_NAME, cache_dir);
+        assert(cache_dir);
     }
 
-    g_cache_dir = cache;
+    g_cache_dir = cache_dir;
 
     if (mkdir(g_cache_dir, S_IRWXU | S_IRGRP) == -1 && errno != EEXIST) {
         print_error("failed to create directory: '%s'\n", g_cache_dir);
@@ -76,21 +76,21 @@ set_cache_dir()
 static void
 set_config_dir()
 {
-    char * config = getenv("XDG_CONFIG_HOME");
-    if (!config) {
+    char * config_dir = getenv("XDG_CONFIG_HOME");
+    if (!config_dir) {
         print_warn(
             "XDG_CONFIG_HOME is unset. using '$HOME/.config/" PROGRAM_NAME
             "' instead\n");
 
         char * home = getenv("HOME");
-        config      = svconcat("%s/.config/" PROGRAM_NAME, home);
-        assert(config);
+        config_dir  = svconcat("%s/.config/" PROGRAM_NAME, home);
+        assert(config_dir);
     } else {
-        config = svconcat("%s/" PROGRAM_NAME, config);
-        assert(config);
+        config_dir = svconcat("%s/" PROGRAM_NAME, config_dir);
+        assert(config_dir);
     }
 
-    g_config_dir = config;
+    g_config_dir = config_dir;
 
     if (mkdir(g_config_dir, S_IRWXU | S_IRGRP) == -1 && errno != EEXIST) {
         print_error("failed to create directory: '%s'\n", g_config_dir);
