@@ -77,7 +77,7 @@ curl_request_set_common_opts(CURL * curl, FILE ** curl_log)
         exit(1);
     }
 
-    curl_easy_setopt(curl, CURLOPT_STDERR, curl_log);
+    curl_easy_setopt(curl, CURLOPT_STDERR, *curl_log);
 }
 
 int
