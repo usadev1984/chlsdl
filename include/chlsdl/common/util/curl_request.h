@@ -27,6 +27,21 @@ curl_buffer_dealloc(struct curl_buffer * buf)
     free(buf);
 }
 
+/**
+ * for use with __chlsdl_defer() macro
+ */
+CHLSDL_ALWAYS_INLINE inline void
+__curl_buffer_dealloc(struct curl_buffer ** pbuf)
+{
+    if (!*pbuf)
+        return;
+
+    if ((*pbuf)->data)
+        free((*pbuf)->data);
+
+    free(*pbuf);
+}
+
 extern void
 set_curl_logfile_path(const char * path);
 extern void
