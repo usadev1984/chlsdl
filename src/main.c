@@ -119,11 +119,12 @@ static void
 find_modules(int * nout, struct module_lib * out)
 {
     /*
-     * FIXME: search `modules` placed in appropriate system directories like
-     * /lib and /usr/lib and wherever they are in nixos
+     * FIXME: find modules placed in appropriate system directory on nixos
      */
-    static const char * dir     = "modules";
-    DIR *               modules = opendir(dir);
+    static const char * dir = MODULES_PATH;
+
+    print_debug_warn("looking for modules in: '%s'\n", dir);
+    DIR * modules = opendir(dir);
     assert(modules);
 
     struct dirent * ent;
