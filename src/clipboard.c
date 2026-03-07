@@ -209,6 +209,7 @@ xcout(Display * dpy, Window win, XEvent evt, Atom sel, Atom target, Atom * type,
 void
 clipboard_init()
 {
+    assert(system("xclip -version &> /dev/null") == 0);
     dpy = XOpenDisplay(NULL);
     assert(dpy);
 
