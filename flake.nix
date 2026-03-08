@@ -30,6 +30,7 @@
           buildInputs = with pkgs; [
             xorg.libX11.dev
             libxmu.dev
+            xclip
             pcre2.dev
             curl.dev
             json_c.dev
@@ -45,6 +46,7 @@
           buildInputs = with pkgs; [
             xorg.libX11.dev
             libxmu.dev
+            xclip
             pcre2.dev
             curl.dev
             json_c.dev

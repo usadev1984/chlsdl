@@ -6,6 +6,7 @@ a modular program which is extended through modules to save various types of med
 ** dependencies
 - [[https://github.com/usadev1984/chlsdl-modules][chlsdl-modules]]
 - libxmu
+- xclip
 - pcre2
 - json-c
 - curl
