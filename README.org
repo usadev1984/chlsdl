@@ -1,0 +1,36 @@
+#+TITLE: chlsdl
+#+AUTHOR: usadev1984
+#+LANGUAGE: en
+
+a modular program which is extended through modules to save various types of media from various sources. see [[https://github.com/usadev1984/chlsdl-modules/?tab=readme-ov-file#supported-sources][modules repo]] for supported sources.
+** dependencies
+- [[https://github.com/usadev1984/chlsdl-modules][chlsdl-modules]]
+- libxmu
+- pcre2
+- json-c
+- curl
+- pkg-config (build-time only)
+** building
+if you don't want colored output or your terminal doesn't have truecolor support, don't pass ~COLOR=1~ to ~make~.
+- build shared library:
+#+BEGIN_SRC shell
+make -j$((`nproc`+1)) libchlsdl-common COLOR=1
+#+END_SRC
+- build main program:
+#+BEGIN_SRC shell
+  make -j$((`nproc`+1)) release COLOR=1
+#+END_SRC
+- install with:
+#+BEGIN_SRC shell
+  sudo make install
+#+END_SRC
+then build modules from [[https://github.com/usadev1984/chlsdl-modules][chlsdl-modules]] and install them.
+** usage
+1. add the js userscript for the module you intend to use in [[https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/][violent monkey]]
+2. run the main program with ~chlsdl~
+3. navigate to a supported website and press backtick (`) to trigger the js userscript
+4. ???
+5. profit
+** todo
+- [ ] fix building on nixos
+- maybe move libchlsdl-common to modules repo?
