@@ -13,11 +13,7 @@ a modular program which is extended through modules to save various types of med
 - pkg-config (build-time only)
 ** building
 if you don't want colored output or your terminal doesn't have truecolor support, don't pass ~COLOR=1~ to ~make~.
-- build shared library:
-#+BEGIN_SRC shell
-make -j$((`nproc`+1)) libchlsdl-common COLOR=1
-#+END_SRC
-- build main program:
+- build release:
 #+BEGIN_SRC shell
   make -j$((`nproc`+1)) release COLOR=1
 #+END_SRC

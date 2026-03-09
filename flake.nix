@@ -53,8 +53,7 @@
           ];
 
           buildPhase = ''
-            make -B libchlsdl-common COLOR=1
-            make -B release COLOR=1
+            make -j$((`nproc`+1)) release COLOR=1
           '';
           installPhase = ''
             make install PREFIX=$out

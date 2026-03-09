@@ -58,7 +58,8 @@ install:
 	cp -f ${BIN} ${DESTDIR}${PREFIX}/bin/${BIN}
 	chmod 755 ${DESTDIR}${PREFIX}/bin/${BIN}
 
-release: ${BIN}
+release: libchlsdl-common ${BIN}
+.NOTPARALLEL: release
 
 debug: CFLAGS += -DDEBUG -g3
 debug: ${DEBUG_BIN}
