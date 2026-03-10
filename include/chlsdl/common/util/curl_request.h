@@ -18,13 +18,13 @@ curl_buffer_alloc(size_t n);
 CHLSDL_ALWAYS_INLINE inline void
 curl_buffer_dealloc(struct curl_buffer * buf)
 {
-    if (!buf)
-        return;
-
-    if (buf->data)
+    if (buf) {
         free(buf->data);
+        buf->data = NULL;
+    }
 
     free(buf);
+    buf = NULL;
 }
 
 /**
@@ -33,13 +33,7 @@ curl_buffer_dealloc(struct curl_buffer * buf)
 CHLSDL_ALWAYS_INLINE inline void
 __curl_buffer_dealloc(struct curl_buffer ** pbuf)
 {
-    if (!*pbuf)
-        return;
-
-    if ((*pbuf)->data)
-        free((*pbuf)->data);
-
-    free(*pbuf);
+    curl_buffer_dealloc(*pbuf);
 }
 
 extern void
