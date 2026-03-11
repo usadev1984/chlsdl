@@ -2,8 +2,8 @@
 #include "main.h"
 
 #include <assert.h>
-#include <chlsdl/common/print.h>
-#include <chlsdl/common/util/util.h>
+#include <chlsdl-modules/chlsdl-common/print.h>
+#include <chlsdl-modules/chlsdl-common/util/util.h>
 #include <chlsdl/macros.h>
 #include <json-c/json.h>
 

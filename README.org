@@ -9,7 +9,6 @@ a modular program which is extended through modules to save various types of med
 - xclip
 - pcre2
 - json-c
-- curl
 - pkg-config (build-time only)
 ** building
 if you don't want colored output or your terminal doesn't have truecolor support, don't pass ~COLOR=1~ to ~make~.

@@ -1,8 +1,6 @@
 #ifndef MODULE_H_
 #define MODULE_H_
 
-#include "common/common.h"
-
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include <pcre2.h>
 

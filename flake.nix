@@ -32,7 +32,6 @@
             libxmu.dev
             xclip
             pcre2.dev
-            curl.dev
             json_c.dev
           ];
           hardeningDisable = [ "all" ];
@@ -48,7 +47,6 @@
             libxmu.dev
             xclip
             pcre2.dev
-            curl.dev
             json_c.dev
           ];
 
