@@ -11,7 +11,7 @@ a modular program which is extended through modules to save various types of med
 - json-c
 - pkg-config (build-time only)
 ** building
-if you don't want colored output or your terminal doesn't have truecolor support, don't pass ~COLOR=1~ to ~make~.
+first, build and install [[https://github.com/usadev1984/chlsdl-modules][chlsdl-modules]]. if you don't want colored output or your terminal doesn't have truecolor support, don't pass ~COLOR=1~ to ~make~.
 - build release:
 #+BEGIN_SRC shell
   make -j$((`nproc`+1)) release COLOR=1
@@ -20,7 +20,6 @@ if you don't want colored output or your terminal doesn't have truecolor support
 #+BEGIN_SRC shell
   sudo make install
 #+END_SRC
-then build modules from [[https://github.com/usadev1984/chlsdl-modules][chlsdl-modules]] and install them.
 ** usage
 1. add the js userscript for the module you intend to use in [[https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/][violent monkey]]
 2. run the main program with ~chlsdl~
