@@ -14,7 +14,7 @@ ifeq ($(strip $(COLOR)),1)
 endif
 
 ifeq ($(strip $(PREFIX)),)
-	PREFIX = /usr/local
+	PREFIX = /usr
 endif
 
 OBJ	 := $(patsubst %.c, %.o, $(wildcard src/*.c)) # src/main.o
