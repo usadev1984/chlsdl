@@ -17,6 +17,10 @@ ifeq ($(strip $(PREFIX)),)
 	PREFIX = /usr
 endif
 
+ifeq ($(strip $(LIBNOTIFY)),1)
+	CFLAGS += -DUSE_LIBNOTIFY
+endif
+
 OBJ	 := $(patsubst %.c, %.o, $(wildcard src/*.c)) # src/main.o
 
 # outputs

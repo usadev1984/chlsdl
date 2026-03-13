@@ -9,6 +9,7 @@ a modular program which is extended through modules to save various types of med
 - xclip
 - pcre2
 - json-c
+- libnotify (optional. push notifications)
 - pkg-config (build-time only)
 ** building
 *** options
