@@ -1,6 +1,7 @@
 #ifndef SOCKET_H_
 #define SOCKET_H_
 
+#include <chlsdl-modules/chlsdl-common/util/curl_request.h>
 #include <chlsdl/macros.h>
 #include <stdint.h>
 #include <unistd.h>
@@ -13,5 +14,8 @@ socket_close(int sockfd)
 {
     close(sockfd);
 }
+
+extern ssize_t
+socket_recv_no_http_header(int sockfd, struct curl_buffer * buf);
 
 #endif // SOCKET_H_
