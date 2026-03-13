@@ -1,6 +1,7 @@
 #include "main.h"
 #include "clipboard.h"
 #include "config.h"
+#include "socket.h"
 
 #include <assert.h>
 #include <chlsdl-modules/chlsdl-common/common.h>
@@ -36,11 +37,14 @@ const char * g_downloads_dir = NULL;
 
 static struct chlsdl_config * config;
 
+static int local_socket;
+
 static void
 cleanup(int sig)
 {
     unset_curl_user_agent();
     unset_curl_logfile_path();
+    socket_close(local_socket);
     clipboard_deinit();
     for (int i = nlibs; i-- > 0;) {
         modules[i]->deinit();
@@ -230,6 +234,9 @@ main()
 
     init_modules(&cdata);
     clipboard_init();
+    local_socket = socket_open(53162);
+    assert(local_socket != -1);
+    print_info("created socket\n");
 
     {
         char * curllog = svconcat("%s/curl_log.txt", g_cache_dir);
