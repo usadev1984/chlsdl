@@ -1,5 +1,4 @@
 #include "main.h"
-#include "clipboard.h"
 #include "config.h"
 #include "socket.h"
 
@@ -47,7 +46,6 @@ cleanup(int sig)
     unset_curl_logfile_path();
     curl_buffer_dealloc(js_data);
     socket_close(local_socket);
-    clipboard_deinit();
     for (int i = nlibs; i-- > 0;) {
         modules[i]->deinit();
         dlclose(libs[i].dl_lib);
@@ -235,7 +233,6 @@ main()
     };
 
     init_modules(&cdata);
-    clipboard_init();
     local_socket = socket_open(config->port);
     assert(local_socket != -1);
     print_info("created socket\n");
@@ -253,12 +250,15 @@ main()
     set_curl_user_agent(config->user_agent);
 
     while (1) {
-        char * clip_content = (char *)clipboard_get();
-        assert(clip_content);
+        print_info("listening...\n");
+        if (socket_recv_no_http_header(local_socket, js_data) <= 0) {
+            print_warn("read nothing\n");
+            goto skip;
+        }
 
-        print_debug_success("clipboard content: '%s'\n", clip_content);
+        print_debug_success("read: '%s'\n", js_data->data);
 
-        char * url = get_line_from_string(clip_content);
+        char * url = get_line_from_string(js_data->data);
         if (!url)
             goto skip;
 
@@ -268,19 +268,17 @@ main()
             if (pcre2_match(mod->regex.pattern, (PCRE2_SPTR8)url,
                     PCRE2_ZERO_TERMINATED, 0, 0, mod->regex.md, NULL)
                 >= 0) {
-                clipboard_clear();
                 print_info("downloading: '%s'\n", url);
                 if (!mod->func)
                     assert(0);
 
-                mod->func(clip_content);
+                mod->func(js_data->data);
                 break;
             }
         }
 
     skip:
         free(url);
-        clipboard_string_free(clip_content);
         nanosleep(&(const struct timespec) { .tv_nsec = MS_TO_NS(300) }, NULL);
     }
 
