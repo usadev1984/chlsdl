@@ -11,7 +11,7 @@ static void
 generate_new_config(const char * config_file)
 {
     print_warn("generating new config at: '%s'\n", config_file);
-    const char *  config_str = "{\"user_agent\": null}";
+    const char *  config_str = "{\"user_agent\": null, \"port\": 53162}";
     json_object * config     = json_tokener_parse(config_str);
     assert(config);
 
@@ -53,6 +53,15 @@ parse_config(const char * config_dir)
     }
 
     print_debug_warn("user_agent: '%s'\n", config->user_agent);
+
+    /* get port */
+    int port = json_object_get_int(json_object_object_get(json_config, "port"));
+    if (port < 1024 || port > (uint16_t)~0u) { /* looks suspicious */
+        assert(0);
+    }
+    config->port = (uint16_t)port;
+
+    print_debug_warn("port: '%hu'\n", config->port);
 
     json_object_put(json_config);
     free(config_file);

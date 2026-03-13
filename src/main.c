@@ -234,7 +234,7 @@ main()
 
     init_modules(&cdata);
     clipboard_init();
-    local_socket = socket_open(53162);
+    local_socket = socket_open(config->port);
     assert(local_socket != -1);
     print_info("created socket\n");
 
