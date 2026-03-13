@@ -11,7 +11,11 @@ a modular program which is extended through modules to save various types of med
 - json-c
 - pkg-config (build-time only)
 ** building
-first, build and install [[https://github.com/usadev1984/chlsdl-modules][chlsdl-modules]]. if you don't want colored output or your terminal doesn't have truecolor support, don't pass ~COLOR=1~ to ~make~.
+*** options
+- ~COLOR~: if you want colored output and your terminal has truecolor support, pass ~COLOR=1~ to ~make~ (recommended).
+- ~PREFIX~: controls the directory where everything is going to be installed. you most likely don't need to set this variable.
+*** building
+first, build and install [[https://github.com/usadev1984/chlsdl-modules][chlsdl-modules]].
 - build release:
 #+BEGIN_SRC shell
   make -j$((`nproc`+1)) release COLOR=1
@@ -21,11 +25,10 @@ first, build and install [[https://github.com/usadev1984/chlsdl-modules][chlsdl-
   sudo make install
 #+END_SRC
 ** usage
-1. add the js userscript for the module you intend to use in [[https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/][violent monkey]]
-2. run the main program with ~chlsdl~
-3. navigate to a supported website and press backtick (`) to trigger the js userscript
-4. ???
-5. profit
+1. run the main program with ~chlsdl~
+2. navigate to a supported website and press backtick (`) to trigger the js userscript
+3. ???
+4. profit
 ** todo
 - [ ] fix building on nixos
 - [ ] add support for sending notifications using libnotify
