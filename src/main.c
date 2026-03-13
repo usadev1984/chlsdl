@@ -19,6 +19,10 @@
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include <pcre2.h>
 
+#ifdef USE_LIBNOTIFY
+#    include <chlsdl-modules/chlsdl-common/util/notify.h>
+#endif
+
 static int nlibs;
 
 static struct module_lib {
@@ -42,6 +46,10 @@ static struct curl_buffer * js_data;
 static void
 cleanup(int sig)
 {
+#ifdef USE_LIBNOTIFY
+    chlsdl_notify_uninit();
+#endif
+
     unset_curl_user_agent();
     unset_curl_logfile_path();
     curl_buffer_dealloc(js_data);
@@ -248,6 +256,10 @@ main()
     }
 
     set_curl_user_agent(config->user_agent);
+
+#ifdef USE_LIBNOTIFY
+    assert(chlsdl_notify_init("chlsdl"));
+#endif
 
     while (1) {
         print_info("listening...\n");
