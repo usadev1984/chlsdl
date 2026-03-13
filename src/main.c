@@ -37,13 +37,15 @@ const char * g_downloads_dir = NULL;
 
 static struct chlsdl_config * config;
 
-static int local_socket;
+static int                  local_socket;
+static struct curl_buffer * js_data;
 
 static void
 cleanup(int sig)
 {
     unset_curl_user_agent();
     unset_curl_logfile_path();
+    curl_buffer_dealloc(js_data);
     socket_close(local_socket);
     clipboard_deinit();
     for (int i = nlibs; i-- > 0;) {
@@ -237,6 +239,9 @@ main()
     local_socket = socket_open(config->port);
     assert(local_socket != -1);
     print_info("created socket\n");
+
+    js_data = curl_buffer_alloc(KILOBYTES_TO_BYTES(1));
+    assert(js_data);
 
     {
         char * curllog = svconcat("%s/curl_log.txt", g_cache_dir);
