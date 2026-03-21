@@ -58,8 +58,8 @@ socket_recv(int sockfd, struct curl_buffer * buf)
     buf->at = 0;
 again:
     print_debug_warn("waiting for data...\n");
-    ssize_t n
-        = recv(client_sockfd, &buf->data[buf->at], buf->size, MSG_DONTWAIT);
+    ssize_t n = recv(
+        client_sockfd, &buf->data[buf->at], buf->size - buf->at, MSG_DONTWAIT);
     int errsv = errno;
     if (n == 0) {
         /* close(client_sockfd); */
@@ -89,7 +89,7 @@ again:
     buf->at += n;
 
     /* there may still be data available, resize and try again */
-    if (n == buf->size) {
+    if (buf->at == buf->size) {
         const size_t new_size = buf->size * 2;
         void *       p        = realloc(buf->data, new_size + 1);
         assert(p);
