@@ -259,6 +259,9 @@ main()
 
 #ifdef USE_LIBNOTIFY
     assert(chlsdl_notify_init("chlsdl"));
+
+    assert(chlsdl_notify_notification_show_new(
+        "chlsdl", "listening...", .timeout = 3000));
 #endif
 
     while (1) {
