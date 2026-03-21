@@ -32,5 +32,5 @@ first, build and install [[https://github.com/usadev1984/chlsdl-modules][chlsdl-
 4. profit
 ** todo
 - [ ] fix building on nixos
-- [ ] add support for sending notifications using libnotify
+- [X] add support for sending notifications using libnotify
 - [X] move libchlsdl-common to modules repo
