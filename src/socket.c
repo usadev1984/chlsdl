@@ -90,6 +90,7 @@ again:
 
     /* there may still be data available, resize and try again */
     if (buf->at == buf->size) {
+        print_debug_warn("resizing buffer and trying again\n");
         const size_t new_size = buf->size * 2;
         void *       p        = realloc(buf->data, new_size + 1);
         assert(p);
