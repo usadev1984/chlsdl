@@ -9,6 +9,7 @@ struct chlsdl_data {
 
     const char * cache_dir;
     const char * downloads_dir;
+    int          default_notification_timeout;
 };
 
 typedef const struct module * (*module_init)(const struct chlsdl_data *);

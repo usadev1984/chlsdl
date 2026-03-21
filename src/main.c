@@ -238,6 +238,7 @@ main()
         get_libchlsdl_common_version(),
         g_cache_dir,
         g_downloads_dir,
+        3000,
     };
 
     init_modules(&cdata);
