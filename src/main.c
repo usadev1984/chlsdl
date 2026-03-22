@@ -293,8 +293,8 @@ main()
             }
         }
 
-    skip:
         free(url);
+    skip:
         nanosleep(&(const struct timespec) { .tv_nsec = MS_TO_NS(300) }, NULL);
     }
 
