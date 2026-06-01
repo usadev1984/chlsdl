@@ -68,23 +68,28 @@ cleanup(int sig)
     exit(sig);
 }
 
+static const char *
+get_xdg_user_dir_from_env(const char * env_key, const char * alt)
+{
+    char * r = getenv(env_key);
+    if (!r) {
+        print_warn("%s is unset. using '$HOME/%s/" PROGRAM_NAME "' instead\n",
+            env_key, alt);
+
+        char * home = getenv("HOME");
+        r           = svconcat("%s/%s/" PROGRAM_NAME, home, alt);
+    } else
+        r = svconcat("%s/" PROGRAM_NAME, r);
+    assert(r);
+
+    print_debug_success("got value of '%s' as: '%s'\n", env_key, r);
+    return r;
+}
+
 static void
 set_cache_dir()
 {
-    char * cache_dir = getenv("XDG_CACHE_HOME");
-    if (!cache_dir) {
-        print_warn("XDG_CACHE_HOME is unset. using '$HOME/.cache/" PROGRAM_NAME
-                   "' instead\n");
-
-        char * home = getenv("HOME");
-        cache_dir   = svconcat("%s/.cache/" PROGRAM_NAME, home);
-        assert(cache_dir);
-    } else {
-        cache_dir = svconcat("%s/" PROGRAM_NAME, cache_dir);
-        assert(cache_dir);
-    }
-
-    g_cache_dir = cache_dir;
+    g_cache_dir = get_xdg_user_dir_from_env("XDG_CACHE_HOME", ".cache");
 
     if (mkdir(g_cache_dir, S_IRWXU | S_IRGRP) == -1 && errno != EEXIST) {
         print_error("failed to create directory: '%s'\n", g_cache_dir);
@@ -95,21 +100,7 @@ set_cache_dir()
 static void
 set_config_dir()
 {
-    char * config_dir = getenv("XDG_CONFIG_HOME");
-    if (!config_dir) {
-        print_warn(
-            "XDG_CONFIG_HOME is unset. using '$HOME/.config/" PROGRAM_NAME
-            "' instead\n");
-
-        char * home = getenv("HOME");
-        config_dir  = svconcat("%s/.config/" PROGRAM_NAME, home);
-        assert(config_dir);
-    } else {
-        config_dir = svconcat("%s/" PROGRAM_NAME, config_dir);
-        assert(config_dir);
-    }
-
-    g_config_dir = config_dir;
+    g_config_dir = get_xdg_user_dir_from_env("XDG_CONFIG_HOME", ".config");
 
     if (mkdir(g_config_dir, S_IRWXU | S_IRGRP) == -1 && errno != EEXIST) {
         print_error("failed to create directory: '%s'\n", g_config_dir);
