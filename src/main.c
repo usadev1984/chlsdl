@@ -46,6 +46,8 @@ static struct curl_buffer * js_data;
 static void
 cleanup(int sig)
 {
+    chlsdl_common_deinit();
+
 #ifdef USE_LIBNOTIFY
     chlsdl_notify_uninit();
 #endif
@@ -264,6 +266,8 @@ main()
     assert(chlsdl_notify_notification_show_new(
         "chlsdl", "listening...", .timeout = 3000));
 #endif
+
+    assert(chlsdl_common_init());
 
     while (1) {
         print_info("listening...\n");
