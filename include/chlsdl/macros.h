@@ -31,7 +31,7 @@ __chlsdl_defer_free(void * pp)
 }
 
 #define KILOBYTES_TO_BYTES(kb) (kb * 1024)
-#define MEGABYTES_TO_BYTES(mb) (KILOBYTES(KILOBYTES(mb)))
+#define MEGABYTES_TO_BYTES(mb) (KILOBYTES_TO_BYTES(KILOBYTES_TO_BYTES(mb)))
 #define MS_TO_NS(ms)           (ms * 1000000)
 
 #define lambda(body) (body)
