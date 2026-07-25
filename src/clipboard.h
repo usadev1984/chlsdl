@@ -1,7 +1,7 @@
 #ifndef CLIPBOARD_H_
 #define CLIPBOARD_H_
 
-#include <chlsdl/macros.h>
+#include <chlsdl-modules/chlsdl-common/macros.h>
 
 #include <X11/Xlib.h>
 #include <stdlib.h>

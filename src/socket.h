@@ -2,7 +2,7 @@
 #define SOCKET_H_
 
 #include <chlsdl-modules/chlsdl-common/util/curl_request.h>
-#include <chlsdl/macros.h>
+#include <chlsdl-modules/chlsdl-common/macros.h>
 #include <stdint.h>
 #include <unistd.h>
 

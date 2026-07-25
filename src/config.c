@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <chlsdl-modules/chlsdl-common/print.h>
 #include <chlsdl-modules/chlsdl-common/util/util.h>
-#include <chlsdl/macros.h>
+#include <chlsdl-modules/chlsdl-common/macros.h>
 #include <json-c/json.h>
 
 static void
