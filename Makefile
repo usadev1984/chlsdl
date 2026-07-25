@@ -36,9 +36,9 @@ CFLAGS +=  -DCHLSDL_VERSION=\"${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}\" \
 				-DMODULES_PATH=\"${PREFIX}/lib/${BIN}-modules\"
 
 install:
-	mkdir -p ${DESTDIR}${PREFIX}/include/
-	cp -rf include/${BIN} ${DESTDIR}${PREFIX}/include/
-	# chmod -R 444 ${DESTDIR}${PREFIX}/include/${BIN}
+#	mkdir -p ${DESTDIR}${PREFIX}/include/
+#	cp -rf include/${BIN} ${DESTDIR}${PREFIX}/include/
+#	chmod -R 444 ${DESTDIR}${PREFIX}/include/${BIN}
 
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f ${BIN} ${DESTDIR}${PREFIX}/bin/${BIN}
