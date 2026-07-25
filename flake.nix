@@ -43,7 +43,14 @@
           pname = "chlsdl";
           version = "0.0.1";
 
-          src = ./.;
+          src = pkgs.nix-gitignore.gitignoreSourcePure ''
+            *
+
+            !Makefile
+            !config.mk
+
+            !src
+            !src/*.[ch]'' ./.;
 
           buildInputs = with pkgs; [
             xorg.libX11
