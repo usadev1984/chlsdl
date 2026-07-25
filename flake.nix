@@ -3,6 +3,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     utils.url = "github:numtide/flake-utils";
+    chlsdl-modules.url = "github:usadev1984/chlsdl-modules";
   };
   outputs =
     {
@@ -10,6 +11,7 @@
       nixpkgs,
       # nixpkgs-unstable,
       utils,
+      chlsdl-modules,
       ...
     }:
     utils.lib.eachDefaultSystem (
@@ -28,11 +30,12 @@
             pkgs.gcc
           ];
           buildInputs = with pkgs; [
-            xorg.libX11.dev
-            libxmu.dev
+            xorg.libX11
+            libxmu
             xclip
-            pcre2.dev
-            json_c.dev
+            pcre2
+            json_c
+            chlsdl-modules.packages.${system}.default
           ];
           hardeningDisable = [ "all" ];
         };
@@ -43,15 +46,16 @@
           src = ./.;
 
           buildInputs = with pkgs; [
-            xorg.libX11.dev
-            libxmu.dev
+            xorg.libX11
+            libxmu
             xclip
-            pcre2.dev
-            json_c.dev
+            pcre2
+            json_c
+            chlsdl-modules.packages.${system}.default
           ];
 
           buildPhase = ''
-            make -j$((`nproc`+1)) release COLOR=1
+            make -j$((`nproc`+1)) release PREFIX=${chlsdl-modules.packages.${system}.default} COLOR=1
           '';
           installPhase = ''
             make install PREFIX=$out
