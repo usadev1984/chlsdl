@@ -13,7 +13,7 @@
       utils,
       chlsdl-modules,
       ...
-    }:
+    }@inputs:
     utils.lib.eachDefaultSystem (
       system:
       let
@@ -39,35 +39,11 @@
           ];
           hardeningDisable = [ "all" ];
         };
-        packages.default = pkgs.stdenv.mkDerivation rec {
-          pname = "chlsdl";
-          version = "0.0.1";
 
-          src = pkgs.nix-gitignore.gitignoreSourcePure ''
-            *
-
-            !Makefile
-            !config.mk
-
-            !src
-            !src/*.[ch]'' ./.;
-
-          buildInputs = with pkgs; [
-            xorg.libX11
-            libxmu
-            xclip
-            pcre2
-            json_c
-            chlsdl-modules.packages.${system}.default
-          ];
-
-          buildPhase = ''
-            make -j$((`nproc`+1)) release PREFIX=${chlsdl-modules.packages.${system}.default} COLOR=1
-          '';
-          installPhase = ''
-            make install PREFIX=$out
-          '';
-          hardeningDisable = [ "all" ];
+        packages = {
+          default = self.packages.${system}.chlsdl;
+          chlsdl-debug = self.packages.${system}.chlsdl.override {isDebug = true;};
+          chlsdl = pkgs.callPackage ./package.nix {inherit inputs;};
         };
       }
     );
