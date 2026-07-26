@@ -21,20 +21,30 @@ stdenv.mkDerivation rec {
     !src
     !src/*.[ch]'' ./.;
 
+  dontStrip = if isDebug then true else false;
+
+  chlsdl-modules-pkg =
+    if isDebug then
+      inputs.chlsdl-modules.packages.${pkgs.stdenv.hostPlatform.system}.chlsdl-modules-debug
+    else
+      inputs.chlsdl-modules.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
   buildInputs = with pkgs; [
     xorg.libX11
     libxmu
     xclip
     pcre2
     json_c
-    inputs.chlsdl-modules.packages.${pkgs.stdenv.hostPlatform.system}.default
+    (chlsdl-modules-pkg.override {
+      enableColor = true;
+    })
   ];
 
   buildPhase = lib.concatStringsSep " " (
     [
       "make"
       (if isDebug then "debug" else "release")
-      "PREFIX=${inputs.chlsdl-modules.packages.${pkgs.stdenv.hostPlatform.system}.default}"
+      "PREFIX=${chlsdl-modules-pkg}"
     ]
     ++ lib.optionals enableColor [ "COLOR=1" ]
     ++ lib.optionals isDebug [
