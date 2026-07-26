@@ -4,7 +4,7 @@
   pkgs,
   inputs,
   isDebug ? false,
-  enableColor ? true,
+  enableColor ? false,
   ...
 }:
 
