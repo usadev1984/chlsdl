@@ -4,10 +4,10 @@
 
 #include <assert.h>
 #include <chlsdl-modules/chlsdl-common/common.h>
-#include <chlsdl-modules/chlsdl-common/print.h>
-#include <chlsdl-modules/chlsdl-common/util/util.h>
 #include <chlsdl-modules/chlsdl-common/macros.h>
 #include <chlsdl-modules/chlsdl-common/module.h>
+#include <chlsdl-modules/chlsdl-common/print.h>
+#include <chlsdl-modules/chlsdl-common/util/util.h>
 #include <dirent.h>
 #include <dlfcn.h>
 #include <errno.h>
