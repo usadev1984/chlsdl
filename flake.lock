@@ -6,11 +6,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1785015603,
-        "narHash": "sha256-BROBX98fVqygfI6Dc3nnsSLt4thsTK+1mtGO6BUOQdQ=",
+        "lastModified": 1785368177,
+        "narHash": "sha256-jtCe1V/JJcGPShGqLnD6EBE2fho6DzglIHhYWK0FYOA=",
         "owner": "usadev1984",
         "repo": "chlsdl-modules",
-        "rev": "c92a59feee33cc3a49bc02b9d04e99fede465de5",
+        "rev": "8df34a390f66804768a6dd917dcae7317b8dad2f",
         "type": "github"
       },
       "original": {
