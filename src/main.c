@@ -249,7 +249,8 @@ main()
         free(curllog);
     }
 
-    set_curl_user_agent(config->user_agent);
+    if (config->user_agent)
+        set_curl_user_agent(config->user_agent);
 
 #ifdef USE_LIBNOTIFY
     assert(chlsdl_notify_init("chlsdl"));
